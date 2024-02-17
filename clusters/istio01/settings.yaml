@@ -1,2 +1,3 @@
 ---
 clusterName: istio01
+env: test
