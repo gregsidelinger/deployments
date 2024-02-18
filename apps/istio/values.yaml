@@ -1,8 +1,8 @@
-istio-base:
+base:
   defaultRevision:
     default
 
-istio-cni:
+cni:
   enabled: true
 
 istiod: {}
