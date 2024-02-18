@@ -5,4 +5,4 @@ workload: istio
 enabled: "true"
 apps:
   test:
-    enabled: "false"
+    enabled: true
