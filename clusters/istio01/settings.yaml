@@ -3,5 +3,5 @@ clusterName: istio01
 env: test
 workload: istio
 apps:
-  test:
+  istio:
     enabled: "true"
