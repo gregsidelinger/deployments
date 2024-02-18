@@ -1,0 +1,8 @@
+istio-base:
+  defaultRevision:
+    default
+
+istio-cni:
+  enabled: true
+
+istiod: {}
