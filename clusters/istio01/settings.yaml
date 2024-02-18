@@ -1,4 +1,8 @@
 ---
 clusterName: istio01
 env: test
+workload: istio
 enabled: "true"
+apps:
+  test:
+    enabled: false
