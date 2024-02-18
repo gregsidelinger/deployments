@@ -4,4 +4,4 @@ env: test
 workload: istio
 apps:
   test:
-    enabled: false
+    enabled: "true"
