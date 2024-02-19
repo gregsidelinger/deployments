@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: k8s-deployments
     container:
-      image: bitnami/kubectl:latest
+      image: node:18
     permissions:
       contents: read
       packages: write
@@ -27,6 +27,11 @@ jobs:
           mkdir ~/.kube
           echo "$RANCHER_KUBECONFIG >> ~/.kube/config
           chmod 600 ~/.kube/config
+
+      - uses: azure/setup-kubectl@v3
+        with:
+          version: '1.26.7' # default is latest stable
+        id: install
 
       - uses: azure/k8s-set-context@v1
         with:
