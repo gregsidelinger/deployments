@@ -39,4 +39,4 @@ jobs:
           action: deploy
           namespace: argocd
           manifests: |
-              applicationsets/istio.yaml
+              applicationssets/istio.yaml
