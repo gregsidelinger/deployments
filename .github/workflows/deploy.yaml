@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: k8s-deployment
+    runs-on: k8s-deployments
     container:
       image: bitnami/kubectl:latest
     permissions:
