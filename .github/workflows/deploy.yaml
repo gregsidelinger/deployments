@@ -24,7 +24,7 @@ jobs:
 
       - name: Create kubeconfig
         run: |
-          echo "${secret.RANCHER_KUBECONFIG}" >> kubeconfig.yaml
+          echo "${{secrets.RANCHER_KUBECONFIG}}" >> kubeconfig.yaml
           chmod 600 kubeconfig.yaml
 
       - uses: azure/setup-kubectl@v3
