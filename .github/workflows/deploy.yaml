@@ -7,7 +7,7 @@ on:
     #tags: [ 'v*.*.*' ]
 
 jobs:
-  build:
+  deloy:
     runs-on: k8s-deployments
     container:
       image: node:18
@@ -24,9 +24,8 @@ jobs:
 
       - name: Create kubeconfig
         run: |
-          mkdir ~/.kube
-          echo "$RANCHER_KUBECONFIG >> ~/.kube/config
-          chmod 600 ~/.kube/config
+          echo "$RANCHER_KUBECONFIG >> kubeconfig.yaml
+          chmod 600 kubeconfig.yaml
 
       - uses: azure/setup-kubectl@v3
         with:
@@ -36,7 +35,7 @@ jobs:
       - uses: azure/k8s-set-context@v1
         with:
           method: kubeconfig
-          kubeconfig: ~/.kube/config
+          kubeconfig: kubeconfig.yaml
           context: rancher
         id: setcontext
 
