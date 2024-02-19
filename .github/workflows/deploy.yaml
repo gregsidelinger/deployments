@@ -25,15 +25,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Create kubeconfig
-        run: |
-          echo "$RANCHER_CLUSTER_KUBECONF" > kubeconfig.yaml
-          chmod 600 kubeconfig.yaml
-
       - uses: azure/setup-kubectl@v3
         with:
           version: 'v1.26.13' # default is latest stable
         id: install
+
+      - name: Create kubeconfig
+        run: |
+          echo "$RANCHER_CLUSTER_KUBECONF" > kubeconfig.yaml
+          chmod 600 kubeconfig.yaml
+          kubectl --kubeconfig kubeconfig.yaml cluster-info
+
 
       - uses: azure/k8s-set-context@v1
         with:
