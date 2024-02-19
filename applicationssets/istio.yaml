@@ -1,0 +1,77 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: istio
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+
+  applyNestedSelectors: true
+
+  generators:
+    - matrix:
+        generators:
+          - git:
+              repoURL: https://github.com/gregsidelinger/deployments.git
+              revision: testing
+              files:
+                - path: "clusters/global-settings.yaml"
+              # misc extra values
+              values:
+                enabled: "false"
+          - git:
+              repoURL: https://github.com/gregsidelinger/deployments.git
+              revision: testing
+              files:
+                - path: "clusters/**/settings.yaml"
+              # misc extra values
+              values:
+                enabled: '{{ dig "test" "enabled" .values.enabled .apps  }}'
+
+            selector:
+              matchExpressions:
+                # - key: env
+                #   operator: In
+                #   values:
+                #   -  test
+                # - key: values.enabled
+                - key: apps.istio.enabled
+                  operator: In
+                  values:
+                  -  "true"
+
+  template:
+    metadata:
+      name: '{{ .clusterName }}-istio'
+    spec:
+      project: "default"
+      source:
+        targetRevision: testing
+        repoURL: https://github.com/gregsidelinger/deployments.git
+        path: apps/istio
+        helm:
+          releaseName: istio
+          #values: |
+      destination:
+        #server: '{{.url}}'
+        name: '{{.clusterName}}'
+        namespace: istio-system
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: false
+        syncOptions:
+        - CreateNamespace=true
+        - ServerSideApply=false
+        - FailOnSharedResource=true
+        - PruneLast=true
+        - PrunePropagationPolicy=foreground
+        # managedNamespaceMetadata:
+        #   labels: # The labels to set on the application namespace
+        #     any: label
+        #     you: like
+        #   annotations: # The annotations to set on the application namespace
+        #     the: same
+        #     applies: for
+        #     annotations: on-the-namespace
+
