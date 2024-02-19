@@ -6,9 +6,6 @@ on:
     # Publish semver tags as releases.
     #tags: [ 'v*.*.*' ]
 
-env:
-  RANCHER_CLUSTER_KUBECONF: ${{ secrets.RANCHER_KUBECONFIG }}
-
 jobs:
   deloy:
     runs-on: k8s-deployments
@@ -30,17 +27,10 @@ jobs:
           version: 'v1.26.13' # default is latest stable
         id: install
 
-      - name: Create kubeconfig
-        run: |
-          echo "$RANCHER_CLUSTER_KUBECONF" > kubeconfig.yaml
-          chmod 600 kubeconfig.yaml
-          kubectl --kubeconfig kubeconfig.yaml cluster-info
-
-
-      - uses: azure/k8s-set-context@v1
+      - uses: azure/k8s-set-context@v4
         with:
           method: kubeconfig
-          kubeconfig: kubeconfig.yaml
+          kubeconfig: ${{ secrets.RANCHER_KUBECONFIG }}
           context: rancher
         id: setcontext
 
