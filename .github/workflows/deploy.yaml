@@ -6,6 +6,9 @@ on:
     # Publish semver tags as releases.
     #tags: [ 'v*.*.*' ]
 
+env:
+  RANCHER_CLUSTER_KUBECONF: ${{ secrets.RANCHER_KUBECONFIG }}
+
 jobs:
   deloy:
     runs-on: k8s-deployments
@@ -24,9 +27,8 @@ jobs:
 
       - name: Create kubeconfig
         run: |
-          echo "${{secrets.RANCHER_KUBECONFIG}}" >> /tmp/kubeconfig.yaml
-          chmod 600 /tmp/kubeconfig.yaml
-          head -n 2 /tmp/kubeconfig.yaml
+          echo "$RANCHER_CLUSTER_KUBECONF" > kubeconfig.yaml
+          chmod 600 kubeconfig.yaml
 
       - uses: azure/setup-kubectl@v3
         with:
@@ -36,7 +38,7 @@ jobs:
       - uses: azure/k8s-set-context@v1
         with:
           method: kubeconfig
-          kubeconfig: /tmp/kubeconfig.yaml
+          kubeconfig: kubeconfig.yaml
           context: rancher
         id: setcontext
 
