@@ -10,7 +10,7 @@ jobs:
   deloy:
     runs-on: k8s-deployments
     container:
-      image: node:18
+      image: node:20
     permissions:
       contents: read
       packages: write
