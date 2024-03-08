@@ -27,7 +27,7 @@ jobs:
           version: 'v1.26.13' # default is latest stable
         id: install
 
-      - uses: azure/k8s-set-context@v3
+      - uses: azure/k8s-set-context@v4
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.RANCHER_KUBECONFIG }}
