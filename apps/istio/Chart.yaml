@@ -16,5 +16,5 @@ dependencies:
   repository: https://istio-release.storage.googleapis.com/charts
   condition: cni.enabled
 - name: istiod
-  version: 1.20.3
+  version: 1.21.0
   repository: https://istio-release.storage.googleapis.com/charts
